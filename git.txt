@@ -11,3 +11,18 @@ git add.
 
 # Stergere fisiere din lista de modificari pt commit 
 git rm --cached NUME_FISIER
+
+#commit = salveaza starea curent
+git commit -m "MESAJ"
+git commit#Se iese din editor cu ESC > : > wq > ENTER
+
+# afiseaza configuratia
+git config --global -l
+
+# configureaza email si nume
+git config --global user.email "EMAIL GITHUB"
+git config --global user.name "NUME PRENUME"
+
+# afiseaza istorie
+git log
+
