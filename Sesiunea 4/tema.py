@@ -1,0 +1,95 @@
+"""
+1. Scrieti un program care afiseaza numerele prime din intervalul [0 100].
+
+2. Scrieti un program care afiseaza numerele impare in intervalul [0, 1000]
+
+3. Scrieti un program care citeste de la tastatura un nr natural "n", 
+si afiseaza suma primelor n numere multiple de 5 si 3.
+
+4. Scrieti un program care citeste de la tastatura un nr natural "n", 
+si afiseaza n! (factorial). 6! = 1 * 2 * 3 * 4 * 5 * 6
+
+5. Scrieti un program care afiseaza toate litere (capitale) ale 
+alfabetului englez, pe aceiasi linie despartite prin spatiu. 
+**A se vedea tablelul ASCII. chr(65) -> A
+
+6. Intr-o cutie se află 300 de bile, numerotate cu numere începând de la unu, 
+din trei în trei. Toate bilele cărora le corespund numere pare sunt verzi. 
+Să se afle câte bile verzi sunt.
+
+7. Scrieti un program care citeste doua nr de la tastatura si calculeaza produsul
+lor. A nu se utiliza operatorul de inmultire.
+
+8. Scrieti un program de tip joc "ghiceste numarul".
+    Cerinte: 
+    1. Programul genereaza un numar aleator in intervalul [1, 99].
+    2. Intr-o bucla conditionata de gasirea numarului cautat:
+        - se citeste de la tastatura un numar
+        - se compara cu numarul cautat
+        - daca numarul introdus este mai mic decat numarul cautat se afiseaza +
+        - daca este mai mic se afiseaza -
+    3. Dupa ce numarul este ghicit se afiseaza un mesaj de felicitare si numarul cautat.
+
+    EX: 
+    Incepe jocul!
+    Introduceti un numar intre 1 si 99.
+    3
+    +
+    6
+    +
+    20
+    +
+    60
+    -
+    50
+    +
+    56
+    -
+    Felicitari!
+    Ai ghicit numarul: 56
+
+
+9. Sa se modifice programul de la pct. 8 astfel:
+    - modificam intervalul de generare la [1, 300]
+    - in loc de + - o sa afisam dupa cum urmeaza;
+    - cand numarul introdus este:
+        +/- 50 fata de numarul cautat: "Gheata"
+        +/- 40 fata de numarul cautat: "Frig"
+        +/- 30 fata de numarul cautat: "Rece"
+        +/- 20 fata de numarul cautat: "Caldut"
+        +/- 10 fata de numarul cautat: "Cald"
+        +/- 5 fata de numarul cautat: "Frige"
+        +/- 2 fata de numarul cautat: "Arde"
+
+    EX:
+    Incepe jocul!
+    Introduceti un numar intre 1 si 99.
+    50
+    Caldut
+    44
+    Caldut
+    60
+    Rece
+    34
+    Frige
+    33
+    Frige
+    31
+    Arde
+    Felicitari!
+    Ai ghicit numarul: 31
+
+10. Scrieti un program care citeste un numar natural (n) de la tastatura si 
+genereaza un grafic de forma:
+
+*
+*
+**
+***
+*****
+********
+
+Graficul va fi format din n linii iar pe fiecare linie se afiseaza x stelute.
+x reprezinta al n nr a lui Fibonacci.
+
+"""

@@ -1,0 +1,13 @@
+# Clonare repo = descarcare cod 
+git clone URL
+
+# Verificare stare
+git status
+
+# Adaugare fisiere pentru a fi incluse in urmatorul commit
+git add NUME_FISIER
+# Adauga toate fisierele
+git add.
+
+# Stergere fisiere din lista de modificari pt commit 
+git rm --cached NUME_FISIER
