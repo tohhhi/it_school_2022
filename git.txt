@@ -26,3 +26,11 @@ git config --global user.name "NUME PRENUME"
 # afiseaza istorie
 git log
 
+# intoarcere in timp - reset la commit 
+EX: git reset COMMIT_ID (commit fb3653aed9819ec355a8ebfba65c0fbec9cc00cb)
+
+# Uploadeaza modificari
+git push
+
+# Descarcam cele mai noi modificari
+git pull

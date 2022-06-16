@@ -29,6 +29,9 @@
 
 
 
+
+
+
 def reverse(n):
     rev = 0 
     while n != 0:
@@ -51,6 +54,8 @@ if palindrom(n):
     print("Numarul este palindrom")
 else:
     print("Numarul nu este palindrom")
+
+
 
 
 

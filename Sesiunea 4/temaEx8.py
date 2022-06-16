@@ -10,17 +10,25 @@
     3. Dupa ce numarul este ghicit se afiseaza un mesaj de felicitare si numarul cautat.
 """
 
-number = input("Introduceti un numar: ")
-number = int(number)
+import random
 
-lucky_number = 55
+random_numbers = random.randint(1,100)
 
-for n in range(1,101):
-    if number < lucky_number:
-        print("+")
-    else:
-        print("-")
-    if number == lucky_number:
-        print("Felicitari!")
+
+number = int(input("Introduceti un numar: "))
+
+while number != random_numbers:
+    if number > random_numbers:
+            print("-")
+    elif number < random_numbers:
+            print("+")
+    number = int(input("Introduceti un numar: "))
+print("Felicitari,numarul cautat este:",random_numbers)
+  
+     
+
+    
+    
+    
     
     

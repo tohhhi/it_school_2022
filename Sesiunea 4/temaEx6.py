@@ -2,15 +2,27 @@
 #din trei în trei. Toate bilele cărora le corespund numere pare sunt verzi. 
 #Să se afle câte bile verzi sunt.
 
-cutie = 300
-bile_verzi = 0
 
-for i in range(1, 301):
+
+
+even_count = 0
+
+for i in range(1, 301, 3):
     if i % 2 == 0:
-        bile_verzi = i
+       print(i,end = ' ')
+       even_count = even_count + 1
+print("Total bile verzi:",even_count)
         
         
-        print(bile_verzi)
+
+    
+        
+        
+
+        
+        
+        
+        
 
         
         
