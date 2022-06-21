@@ -59,4 +59,4 @@ deck = Deck()
 
 # print(deck.get_all_cards())
 deck.shuffle()
-print(deck.get_all_cards())
+

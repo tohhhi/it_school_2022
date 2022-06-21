@@ -1,20 +1,18 @@
-print("5")
-print('Mihai is "tall"')
+
+"""
+7 kyu: Complementary DNA
+http://www.codewars.com/kata/554e4a2f232cdd87d9000038/train/python
+"""
+def DNA_strand(dna):
+    complements = {
+        'A': 'T',
+        'T': 'A',
+        'G': 'C',
+        'C': 'G',
+    }
+    return ''.join([complements[c] for c in dna])
 
 
-
-print('"Isn\'t," they said.')
-
-s = "The first line \nSecond line."
-
-print(s)
-
-
-nume1 = "Py"
-
-nume2 = "thon"
-
-print(nume1 + nume2)
-
-
-
+print(DNA_strand("AAAA"))
+print(DNA_strand("ATTGC"))
+print(DNA_strand("GTAT"))
