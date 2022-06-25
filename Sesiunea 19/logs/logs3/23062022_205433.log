@@ -1,0 +1,3 @@
+<2022-06-23 20:54:33,913> <913> - [ERROR] - log3.py - 40 - Could not create invoice!
+<2022-06-23 20:54:33,914> <914> - [ERROR] - log3.py - 40 - Database is corrupt...aborting.
+<2022-06-23 20:54:33,915> <915> - [CRITICAL] - log3.py - 50 - System crash, due to no database instance.

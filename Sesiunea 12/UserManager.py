@@ -15,51 +15,47 @@
 
 class UserManager:
 
-    def __init__(self, users):
-        self.__users = list()
+    def __init__(self):
+        self.__users = []
 
 
-    def add_user(self):
-        add_user = input("Add user:")
-        self.__users.append(add_user)
-        print(self.__users)
-
-    def get_user_by_email(self):
+    def add_user(self, email_user):
+        self.__users.append(email_user)
         
+    def delete_user(self, delete_user):
+        self.__users.remove(delete_user)
+    
+    def drop_all(self):
+        self.__users.clear()
+    
 
     def get_users(self):
         return self.__users
 
-calatori = [
-    "Otavă Bogdan",
-    "Greta Mihaela Geabelea",
-    "Iustin Gabriel Manciu",
-    "Corina Lungu",
-    "Melissa Madalina Haj Abdo",
-    "Gabriel Guțui",
-    "George Valeanu",
-    "Andreea-Simona Telegeanu",
-    "Ionuț Alin Preda",
-    "Arthur Timbalariu",
-    "Cristian Laurentiu Șandor",
-    "Alex Raul Bonat-Mihalca",
-    "Artsanyo Dennis Kachi",
-    "Sergiu Mihai Predel",
-    "Marian-Gabriel Tohaneanu-Iatan",
-    "Irina Florentina Barbu",
-    "Cordos Simona",
-]
 
 
+user1 = UserManager()
 
 
-user1 = UserManager(calatori)
+user1.add_user("madalin.01@gmail.com")
 
-user2 = UserManager(calatori)
+user1.add_user("andrei_steaua98")
+
+user1.add_user("tohaneanu.marian@yahoo.com")
 
 
-user1.add_user()
+print(user1.get_users())
 
-user2.add_user()
+user1.delete_user("andrei_steaua98")
 
-print(user2.get_users())
+print(user1.get_users())
+
+user1.drop_all()
+
+print(user1.get_users())
+
+user1.add_user("tohaneanu.marian@yahoo.com")
+
+print(user1.get_users())
+
+
