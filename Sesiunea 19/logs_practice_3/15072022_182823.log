@@ -1,0 +1,3 @@
+2022-07-15 18:28:23,222 - main_logger - [ERROR] - practice3_logs.py - 69 - Could not create invoice!
+2022-07-15 18:28:23,223 - main_logger - [ERROR] - practice3_logs.py - 76 - Database is corrupt...aborting.
+2022-07-15 18:28:23,224 - main_logger - [CRITICAL] - practice3_logs.py - 77 - System crash, due to no database instance.

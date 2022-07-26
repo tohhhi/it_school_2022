@@ -16,4 +16,4 @@
 #10. Write a script that takes two args. First is a name and second a number.
 #- print the name on screen fro given number of times.
 
-11. 
+ 

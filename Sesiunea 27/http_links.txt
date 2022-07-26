@@ -1,0 +1,34 @@
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+
+Metode server: GET, POST, PUT, PATCH, DELETE     
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET
+
+https://developer.accuweather.com/packages # accuweather
+
+
+
+[
+    {
+        "LocalObservationDateTime": "2022-07-26T19:17:00+03:00",
+        "EpochTime": 1658852220,
+        "WeatherText": "Sunny",
+        "WeatherIcon": 1,
+        "HasPrecipitation": false,
+        "PrecipitationType": null,
+        "IsDayTime": true,
+        "Temperature": {
+            "Metric": {
+                "Value": 28.4,
+                "Unit": "C",
+                "UnitType": 17
+            },
+            "Imperial": {
+                "Value": 83.0,
+                "Unit": "F"
+    {
+[
+
+
+librarie pt python http: https://requests.readthedocs.io/en/latest/

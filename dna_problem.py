@@ -24,7 +24,7 @@ def DNA_strand(dna):
    
 
     
-DNA_strand("TTTTTTTTTGAAATTTTTCGTTTTTTTTTTT")
+DNA_strand("TCGTTT")
 
 
 

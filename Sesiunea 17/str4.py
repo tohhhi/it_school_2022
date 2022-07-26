@@ -1,5 +1,5 @@
 from pprint import pprint
-from practice import py_text
+from practice1 import py_text
 
 text = "mihAI dinu"
 

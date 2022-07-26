@@ -15,4 +15,4 @@ def fib(n):
 
 fib(1000)
 
-print(datetime.now() - startTime)
+print(f"Executia a durat:{datetime.now() - startTime}.")

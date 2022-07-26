@@ -1,15 +1,8 @@
-def DNA_strand(dna):
-    dna = {
-        "A": "T",
-        "T": "A",
-        "G": "C",
-        "C": "G"
-    }
-    for k,v in dna:
-        print(k,v)
+from importlib.resources import path
+import pathlib
 
 
+root = pathlib.Path(__file__)
 
-DNA_strand("ACTG")
-        
-        
+
+print(root)

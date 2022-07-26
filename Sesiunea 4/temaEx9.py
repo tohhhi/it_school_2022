@@ -3,7 +3,7 @@
     - modificam intervalul de generare la [1, 300]
     - in loc de + - o sa afisam dupa cum urmeaza;
     - cand numarul introdus este:
-        +/- 50 fata de numarul cautat: "Gheata"
+        +/- 50 fata de numarul cautat: "Gheata"   
         +/- 40 fata de numarul cautat: "Frig"
         +/- 30 fata de numarul cautat: "Rece"
         +/- 20 fata de numarul cautat: "Caldut"
@@ -33,20 +33,32 @@
 
 import random
 
-n = None
-x = random.randint(1,300)
+random_numbers = random.randint(1,300)
 
 
+number = int(input("Introduceti un numar: "))
 
-
-
-
-while n != x:
-
-    n = int(input("Introduceti un numar: "))
-    
+while number != random_numbers:
     
     
 
+    if number > random_numbers + 50 or number < random_numbers - 50:
+            print("Gheata")
+    elif number > random_numbers + 40 or number < random_numbers - 40:
+            print("Frig")
+    elif number > random_numbers + 30 or number < random_numbers - 30:
+            print("Rece")
+    elif number > random_numbers + 20 or number < random_numbers - 20:
+            print("Caldut")
+    elif number > random_numbers + 10 or number < random_numbers - 10:
+            print("Cald")
+    elif number > random_numbers + 5 or number < random_numbers - 5:
+            print("Frige")
+    elif number > random_numbers + 2 or number < random_numbers - 2:
+            print("Arde")
 
-print("Felicitari, numarul cautat este:", x)
+    
+    number = int(input("Introduceti un numar: "))
+    
+    
+print("Felicitari,numarul cautat este:",random_numbers)
