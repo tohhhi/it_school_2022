@@ -87,3 +87,7 @@ class Ticket:
     # scriem o metoda magica
     def __str__(self):
         return f"<Ticket object for {self.passenger_name}>"
+
+
+
+

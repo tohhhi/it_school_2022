@@ -1,0 +1,1 @@
+<bound method Deck.shuffle of <__main__.Deck object at 0x000001B44F453FD0>>

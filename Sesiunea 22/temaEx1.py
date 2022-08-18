@@ -9,7 +9,7 @@ import pandas as pd
 
 
 # Reading the csv file
-df_new = pd.read_csv('salarii.csv')
+df_new = pd.read_csv('C:\\Users\\tohan\\Desktop\\IT-SCHOOL\\Sesiunea 24\\files\salarii.csv', header=None)
  
 # saving xlsx file
 GFG = pd.ExcelWriter('Excell_salariati.xlsx')

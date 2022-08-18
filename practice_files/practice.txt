@@ -90,4 +90,3 @@ genereaza un grafic de forma:
 
 Graficul va fi format din n linii iar pe fiecare linie se afiseaza x stelute.
 x reprezinta al n nr a lui Fibonacci.
-

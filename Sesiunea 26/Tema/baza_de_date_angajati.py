@@ -2,8 +2,10 @@ import sys
 import os
 import sqlite3
 import pathlib
-import pandas 
+import csv
 import pandas as pd
+
+FILES_DIR = pathlib.Path(__file__).parent.joinpath("files")
 
 
 
@@ -15,11 +17,11 @@ db_con = sqlite3.connect(DB_FILE)
 
 sw_name = "HOMEWORK APP"
 
-def create_to_do_table(connection):
+def create_table_angajati(connection):
     cur = connection.cursor()
     
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS salariati (
+    CREATE TABLE IF NOT EXISTS angajati (
         id INTEGER PRIMARY KEY,
         prenume TEXT NOT NULL,
         nume TEXT NOT NULL,
@@ -29,49 +31,67 @@ def create_to_do_table(connection):
 
     connection.commit()
 
-def import_from_csv(path):
+def csv_to_sql(csv_path):
+
     
-    df = pandas.read_csv(path)
+
+    with open(csv_path) as f:
+        cf = csv.reader(f)
+        
+        for row in cf:
+            cur = db_con.cursor()
     
-    cur = db_con.cursor()
+            cur.execute("""INSERT INTO angajati (nume,prenume,salariu_brut) VALUES (?,?,?)""",(row[1],row[0],row[2]))
+
     
-    for row in df.itertuples():
-        cur.execute('''
-                    INSERT INTO salariati (prenume, nume, salariu_brut)
-                    VALUES (?,?,?)
-                    ''',(row.Prenume,row.Nume,row.Salariu_brut))
+
+            db_con.commit()
                 
 
-    db_con.commit()
+def sql_to_csv(sql_table):
 
 
-def import_to_csv(sql_table):
-    con = sqlite3.connect(DB_FILE)
 
-    sql_query = pd.read_sql_query(f"select * from {sql_table}",con)
-
-
-    sql_query.to_csv("salariu.csv")
-
-def resolve_to_do(id):
     cur = db_con.cursor()
 
-    cur.execute("UPDATE todo SET done = 1 WHERE id=?",(id,))
-    
+    rows = cur.execute(f"SELECT * FROM {sql_table}") # rows = generator care trebuie transf. intr-o lista sau iterat direct.
 
+    row_list = list(rows)
+    user = []
+
+    for i in row_list:
+        user.append(f"{i[1]},{i[2]},{i[3]}")
+        
     db_con.commit()
+
+    db_con.close()
+
+    rows = [user[0], user[1], user[2]]
+            
+    # name of csv file 
+    filename = os.path.join('C:\\Users\\tohan\\Desktop\\IT-SCHOOL\\Sesiunea 26\\Tema', 'salary.csv')
+        
+    # writing to csv file 
+    write_to_file = open(filename, 'w') 
+    
+    write_to_file.writelines('\n'.join(user))
+
+    write_to_file.close()
+
+
+
 
 def import_from_csv_flow():
     path = input("Adaugati calea catre csv:")
-    import_from_csv(path)
+    csv_to_sql(path)
 
 def export_sql_table_to_csv_flow():
     sql_table = input("Adaugati numele tabelului sql.")
-    import_to_csv(sql_table)
+    sql_to_csv(sql_table)
 
-def resolve_to_do_flow():
-    to_do_id = int(input("Id to do:"))
-    resolve_to_do(to_do_id)
+def pdf_generator_from_csv_flow():
+    csv_file = input("Adaugati nume csv.")
+    
 
 
 def cls():
@@ -94,7 +114,7 @@ def get_main_menu_choice():
     m_menu_entries = {
         1: {"text": "Importa din csv.", "f": import_from_csv_flow},
         2: {"text": "Exporta din sql table in csv.", "f": export_sql_table_to_csv_flow},
-        3: {"text": "Rezolva to do.", "f": resolve_to_do_flow},
+        3: {"text": "Genereaza fluturasi salariu.", "f": pdf_generator_from_csv_flow},
         0: {"text": "Inchide program.", "f": sys.exit},
     }
 
@@ -113,7 +133,7 @@ def get_main_menu_choice():
 
 def main():
     con = sqlite3.connect(DB_FILE)
-    create_to_do_table(con)
+    create_table_angajati(con)
 
     while True:
         
