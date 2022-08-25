@@ -1,5 +1,7 @@
 import sqlite3
 import pathlib
+import sys
+
 
 ROOT = ROOT = pathlib.Path(__file__).parent
 DB_FILE = ROOT.joinpath("test.db")
@@ -7,6 +9,69 @@ DB_FILE = ROOT.joinpath("test.db")
 
 
 class Menu:
+
+    @staticmethod
+    def add_cars_flow():
+        
+        car_input = Menu.add_car_menu()
+
+        make_table.insert_into_car(car_input)
+
+    @staticmethod
+    def add_customers_flow():
+
+        user_input = Menu.add_client_menu()
+
+        make_table.insert_into_clienti(user_input)
+
+    @staticmethod
+    def add_reservations_flow():
+        print("------Cars------")
+        make_table.show_cars()
+        print("------Customers------")
+        make_table.show_customers()
+
+        reservations_input = Menu.add_rezervari_menu()
+
+        make_table.insert_into_rezervari(reservations_input)
+
+    @staticmethod
+    def print_reservations_flow():
+        make_table.print_rezervari()
+
+    @staticmethod
+    def delete_reservations_flow():
+        id_rezervare = input("Adauga id-ul rezervarii pe care vrei sa o anulezi:")
+        make_table.anuleaza_rezervare(id_rezervare)
+    
+
+
+    @staticmethod
+    def get_main_menu_choice():
+
+        
+        choice_ok = False
+        m_menu_entries = {
+            1: {"text": "Adauga masina.", "f": Menu.add_cars_flow},
+            2: {"text": "Adauga client.", "f": Menu.add_customers_flow},
+            3: {"text": "Adauga rezervare.", "f": Menu.add_reservations_flow},
+            4: {"text": "Vezi rezervari.", "f": Menu.print_reservations_flow},
+            5: {"text": "Anuleaza rezervare.", "f": Menu.delete_reservations_flow},
+            0: {"text": "Inchide programul.", "f": sys.exit}
+        }
+
+        while not choice_ok:
+            for k, v in m_menu_entries.items():
+                print(k, ". ", v["text"], sep="")
+            choice = input("\nAlege un numar: ")
+            if not choice.isnumeric() or int(choice) not in m_menu_entries.keys():
+                print("EROARE: Te rog sa alegi un numar din lista de mai jos.\n\n")
+            else:
+                choice_ok = True
+
+        return m_menu_entries[int(choice)]["f"]
+    
+    
 
     @staticmethod
     def add_car_menu():
@@ -102,12 +167,6 @@ class DataBase:
         )
             """)
 
-
-        # FOREIGN KEY (clienti_id) REFERENCES clienti(id),
-        # FOREIGN KEY (masini_id) REFERENCES masini(id) 
-        # FK car id 
-        # FK client id  
-
         self.conn.commit()
 
 
@@ -135,8 +194,58 @@ class DataBase:
 
         self.conn.commit()
 
+    def print_rezervari(self):
+
+        cur = self.conn.cursor()
+
+        rows = cur.execute("SELECT * FROM rezervari")
+
+        row_list = list(rows)
+
+        for i in row_list:
+            print(f"id_rezervare: {i[0]} | data_start: {i[1]} | perioada: {i[2]} zile | client_id: {i[3]} | car_id: {i[4]}")
+
+        self.conn.commit()
+
+    # cand incepe fuluxul 3 arat lista cu masini 
+    def show_cars(self):
+        
+        cur = self.conn.cursor()
+
+        rows = cur.execute("SELECT * FROM masini")
+
+        row_list = list(rows)
+
+        for i in row_list:
+            print(f"id_masina: {i[0]} | marca_masina: {i[1]} | numar_inmatriculare: {i[6]}")
+
+        self.conn.commit()
+        
+    # listeaza toti clientii
+    def show_customers(self):
+        
+        cur = self.conn.cursor()
+
+        rows = cur.execute("SELECT * FROM clienti")
+
+        row_list = list(rows)
+
+        for i in row_list:
+            print(f"id_client: {i[0]} | Nume: {i[1]} | Prenume: {i[2]}")
+
+        self.conn.commit()
+        
+    def anuleaza_rezervare(self, id):
+        sql = 'DELETE FROM rezervari WHERE id=?'
+        cur = self.conn.cursor()
+        cur.execute(sql, (id,))
+        self.conn.commit()
+
     
-    
+    def show_rezervari_masina(self):
+        pass
+
+
         
         
 
@@ -177,31 +286,45 @@ class Rezervari:
 
 make_table = DataBase(DB_FILE)
 
-make_table.create_client_table()
+menu1 = Menu()
 
-make_table.create_car_table()
+while True:
+    car_menu_choose = menu1.get_main_menu_choice()
+    car_menu_choose()
 
-make_table.create_rezervari_table()
+#make_table.print_rezervari()
 
-user_input = Menu.add_client_menu()
+# make_table.show_cars()
 
-car_input = Menu.add_car_menu()
+# make_table.show_customers()
 
-rezervare_input = Menu.add_rezervari_menu()
+# make_table.anuleaza_rezervare(1)
 
-car1 = Car(car_input)
+# make_table.create_client_table()
 
-user1 = Client(user_input)
+# make_table.create_car_table()
 
-rezervare1 = Rezervari(rezervare_input)
+# make_table.create_rezervari_table()
+
+# user_input = Menu.add_client_menu()
+
+# car_input = Menu.add_car_menu()
+
+# rezervare_input = Menu.add_rezervari_menu()
+
+# car1 = Car(car_input)
+
+# user1 = Client(user_input)
+
+# rezervare1 = Rezervari(rezervare_input)
 
 
-make_table.insert_into_clienti(user_input)
+# make_table.insert_into_clienti(user_input)
 
-make_table.insert_into_car(car_input)
+# make_table.insert_into_car(car_input)
 
 
-make_table.insert_into_rezervari(rezervare_input)
+# make_table.insert_into_rezervari(rezervare_input)
 
 
 
@@ -213,3 +336,4 @@ make_table.insert_into_rezervari(rezervare_input)
 # alege id client
 # arata lista de masini nerezervate
 # alege lista de masini 
+# if data_start + cate zile < datetime.now
