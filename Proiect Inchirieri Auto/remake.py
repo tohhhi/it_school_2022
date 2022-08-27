@@ -1,6 +1,7 @@
 import sqlite3
 import pathlib
 import sys
+from datetime import datetime
 
 
 ROOT = ROOT = pathlib.Path(__file__).parent
@@ -144,7 +145,7 @@ class DataBase:
             prenume TEXT NOT NULL,
             cnp INTEGER NOT NULL,
             adresa TEXT NOT NULL,
-            telefon INTEGER NOT NULL,
+            telefon TEXT NOT NULL,
             email TEXT NOT NULL 
         )
             """)
@@ -152,22 +153,24 @@ class DataBase:
         self.conn.commit()
 
     def create_rezervari_table(self):
+    
+            self.conn.cursor()
 
-        self.conn.cursor()
+            self.conn.execute("""
+            CREATE TABLE IF NOT EXISTS rezervari (
+                id INTEGER PRIMARY KEY,
+                data_start DATE,
+                perioada INTEGER,
+                client_id INTEGER UNIQUE, 
+                car_id INTEGER UNIQUE,
+                FOREIGN KEY (client_id) REFERENCES clienti(id),
+                FOREIGN KEY (car_id) REFERENCES masini(id)
+            )
+                """)
 
-        self.conn.execute("""
-        CREATE TABLE IF NOT EXISTS rezervari (
-            id INTEGER PRIMARY KEY,
-            data_start DATE,
-            perioada INTEGER,
-            client_id INTEGER, 
-            car_id INTEGER,
-            FOREIGN KEY (client_id) REFERENCES clienti(id),
-            FOREIGN KEY (car_id) REFERENCES masini(id)
-        )
-            """)
+            self.conn.commit()
+        
 
-        self.conn.commit()
 
 
     def insert_into_clienti(self, client_data):
@@ -187,12 +190,16 @@ class DataBase:
         self.conn.commit()
 
     def insert_into_rezervari(self, rezervari_data):
-        
-        self.conn.cursor()
+        try:
+            self.conn.cursor()
 
-        self.conn.execute("""INSERT INTO rezervari (data_start,perioada,client_id,car_id) VALUES (?,?,?,?)""",(rezervari_data["data_start"] , rezervari_data["perioada"], rezervari_data["client_id"], rezervari_data["car_id"]))
+            self.conn.execute("""INSERT INTO rezervari (data_start,perioada,client_id,car_id) VALUES (?,?,?,?)""",(rezervari_data["data_start"] , rezervari_data["perioada"], rezervari_data["client_id"], rezervari_data["car_id"]))
 
-        self.conn.commit()
+            self.conn.commit()
+        except sqlite3.IntegrityError as err:
+            print("***WARNING***")
+            print("Masina este deja rezervata!!!")
+            print("Te rugam adauga un id de masina diponibil:")
 
     def print_rezervari(self):
 
@@ -243,7 +250,42 @@ class DataBase:
 
     
     def show_rezervari_masina(self):
-        pass
+        cur = self.conn.cursor()
+    
+        
+        rows = cur.execute("SELECT * FROM rezervari")
+
+        row_list = list(rows)
+
+        for i in row_list:
+            print(f"masina rezervata: {i[4]}")
+
+        self.conn.commit()
+
+    
+    def expirare_rezervare(self):
+        
+        cur = self.conn.cursor()
+    
+        
+        rows = cur.execute("SELECT * FROM rezervari")
+
+        row_list = list(rows)
+
+       
+
+        for i in row_list:
+            now = datetime.now().strftime("%d")
+            #if now + i[2] < now:
+            
+            print(int(now) + i[2])
+            
+            #print(f"data_start: {i[1]} | zile_rezervate: {i[2]}")
+            
+
+        self.conn.commit()
+
+        
 
 
         
@@ -288,9 +330,13 @@ make_table = DataBase(DB_FILE)
 
 menu1 = Menu()
 
-while True:
-    car_menu_choose = menu1.get_main_menu_choice()
-    car_menu_choose()
+# while True:
+#     car_menu_choose = menu1.get_main_menu_choice()
+#     car_menu_choose()
+
+
+make_table.expirare_rezervare()
+# make_table.show_rezervari_masina()
 
 #make_table.print_rezervari()
 
