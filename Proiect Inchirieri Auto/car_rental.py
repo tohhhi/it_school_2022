@@ -185,16 +185,16 @@ class DataBase:
 
         self.conn.commit()
 
-    try:
-        def insert_into_reservations(self, reservations_data):
-            
+    
+    def insert_into_reservations(self, reservations_data):
+        try:
             self.conn.cursor()
 
             self.conn.execute("""INSERT INTO reservations (Data_start, Period, Customer_id, Car_id) VALUES (?,?,?,?)""",(reservations_data["Data_start"] , reservations_data["Period"], reservations_data["Customer_id"], reservations_data["Car_id"]))
 
             self.conn.commit()
-    except sqlite3.IntegrityError as err:
-        logging.warning("The car is already booked.")
+        except sqlite3.IntegrityError as err:
+            logging.warning("The car is already booked.")
 
     def print_reservations(self):
 
