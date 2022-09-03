@@ -49,6 +49,7 @@ class Menu:
 
     @staticmethod
     def delete_reservations_flow():
+        make_table.print_rezervari()
         id_rezervare = input("Adauga id-ul rezervarii pe care vrei sa o anulezi:")
         make_table.anuleaza_rezervare(id_rezervare)
     
@@ -445,6 +446,10 @@ logging.info("Hello! Script is starting...")
 while True:
     car_menu_choose = menu1.get_main_menu_choice()
     car_menu_choose()
+    try:
+        make_table.expirare_rezervare()
+    except TypeError as err:
+        logging.error("yy")
 
 # eroare cand nu pot creea baza de date
 # cu join la vezi rezervari..
