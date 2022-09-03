@@ -244,7 +244,6 @@ class DataBase:
     def show_cars_reservations(self):
         cur = self.conn.cursor()
     
-        
         rows = cur.execute("""
         SELECT Registration_number, car_id
         FROM reservations
