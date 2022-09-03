@@ -448,7 +448,7 @@ while True:
     car_menu_choose()
     try:
         make_table.expirare_rezervare()
-    except TypeError as err:
+    except ValueError as err:
         logging.error("yy")
 
 # eroare cand nu pot creea baza de date

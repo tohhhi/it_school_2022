@@ -321,7 +321,7 @@ while True:
     car_menu_choose()
     try:
         make_table.verify_reservations()
-    except TypeError as err:
+    except ValueError as err:
         logging.error("The format of the date need to be: 'day.month.year'.")
 
 
