@@ -1,8 +1,19 @@
-from importlib.resources import path
-import pathlib
+class Car:
+    
+    def __init__(self, color, mileage):
+        self.color = color
+        self.mileage = mileage
+
+    def __str__(self):
+        return (f"The {self.color} car has {self.mileage} miles.")
 
 
-root = pathlib.Path(__file__)
+
+car1 = Car("blue", "20,000")
+
+car2 = Car("red", "30,000")
 
 
-print(root)
+print(car1)
+
+print(car2)

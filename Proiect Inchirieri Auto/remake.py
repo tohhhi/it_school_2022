@@ -1,11 +1,18 @@
 import sqlite3
 import pathlib
 import sys
-from datetime import datetime
+import datetime
+import logging
 
 
 ROOT = ROOT = pathlib.Path(__file__).parent
 DB_FILE = ROOT.joinpath("test.db")
+
+logging.basicConfig(
+    #filename="log.log",
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+    )
 
 
 
@@ -38,7 +45,7 @@ class Menu:
 
     @staticmethod
     def print_reservations_flow():
-        make_table.print_rezervari()
+        make_table.show_rezervari_masina()
 
     @staticmethod
     def delete_reservations_flow():
@@ -66,7 +73,7 @@ class Menu:
                 print(k, ". ", v["text"], sep="")
             choice = input("\nAlege un numar: ")
             if not choice.isnumeric() or int(choice) not in m_menu_entries.keys():
-                print("EROARE: Te rog sa alegi un numar din lista de mai jos.\n\n")
+                logging.error("Te rog sa alegi un numar din lista de mai jos.\n\n")
             else:
                 choice_ok = True
 
@@ -176,9 +183,10 @@ class DataBase:
     def insert_into_clienti(self, client_data):
 
         self.conn.cursor()
-
-        self.conn.execute("""INSERT INTO clienti (nume, prenume, cnp, adresa, telefon, email) VALUES (?,?,?,?,?,?)""",(client_data["nume"], client_data["prenume"], client_data["cnp"], client_data["adresa"], client_data["telefon"], client_data["email"]))
-
+        if len(client_data["cnp"]) == 13:
+            self.conn.execute("""INSERT INTO clienti (nume, prenume, cnp, adresa, telefon, email) VALUES (?,?,?,?,?,?)""",(client_data["nume"], client_data["prenume"], client_data["cnp"], client_data["adresa"], client_data["telefon"], client_data["email"]))
+        else:
+            logging.info("CNP TRB SA AIBA 10 caractere.")
         self.conn.commit()
 
     def insert_into_car(self, car_data):
@@ -197,12 +205,13 @@ class DataBase:
 
             self.conn.commit()
         except sqlite3.IntegrityError as err:
-            print("***WARNING***")
-            print("Masina este deja rezervata!!!")
-            print("Te rugam adauga un id de masina diponibil:")
+            logging.warning("Masina este deja rezervata.")
+            # print("***WARNING***")
+            # print("Masina este deja rezervata!!!")
+            # print("Te rugam adauga un id de masina diponibil:")
 
     def print_rezervari(self):
-
+        
         cur = self.conn.cursor()
 
         rows = cur.execute("SELECT * FROM rezervari")
@@ -253,14 +262,21 @@ class DataBase:
         cur = self.conn.cursor()
     
         
-        rows = cur.execute("SELECT * FROM rezervari")
+        rows = cur.execute("""
+        SELECT numar_inmatriculare, car_id
+        FROM rezervari
+        INNER JOIN masini ON masini.id = rezervari.id;
+        """)
 
         row_list = list(rows)
 
         for i in row_list:
-            print(f"masina rezervata: {i[4]}")
+            print(f"car_id: {i[1]} | numar_inmatriculare: {i[0]}")
 
         self.conn.commit()
+        
+
+        
 
     
     def expirare_rezervare(self):
@@ -275,22 +291,29 @@ class DataBase:
        
 
         for i in row_list:
-            now = datetime.now().strftime("%d")
-            #if now + i[2] < now:
             
-            print(int(now) + i[2])
-            
-            #print(f"data_start: {i[1]} | zile_rezervate: {i[2]}")
-            
+            today = datetime.datetime.today() #.strftime("%d.%m.%Y")
 
-        self.conn.commit()
+            #print(today)
+
+            
+            date_1 = datetime.datetime.strptime(i[1], "%d.%m.%Y")
+
+            end_date = date_1 + datetime.timedelta(days=i[2])
+            # print(type(today))
+            # print(type(end_date))
+
+            if today >= end_date:
+                sql = 'DELETE FROM rezervari WHERE data_start=?'
+                cur = self.conn.cursor()
+                cur.execute(sql, (i[1],))
+                self.conn.commit()
+            
+            
 
         
 
-
         
-        
-
 class Client:
 
     def __init__(self, user_data):
@@ -324,19 +347,110 @@ class Rezervari:
         
 
 
-
-
 make_table = DataBase(DB_FILE)
 
-menu1 = Menu()
-
-# while True:
-#     car_menu_choose = menu1.get_main_menu_choice()
-#     car_menu_choose()
+# menu1 = Menu()
+try:
+    conn2 = sqlite3.connect(DB_FILE)
 
 
-make_table.expirare_rezervare()
-# make_table.show_rezervari_masina()
+    c = conn2.cursor()
+
+    #get the count of tables with the name
+    c.execute(""" SELECT count(*) FROM rezervari """)
+
+    #if the count is 1, then table exists
+    if c.fetchone()[0]==1 : 
+        logging.info("Program functional")
+        menu1 = Menu()   
+    else:
+        logging.critical("Tabelul rezervari nu exista dar a fost creat.")
+        make_table.create_rezervari_table()
+        menu1 = Menu()
+        
+        
+
+    #commit the changes to db
+    conn2.commit()
+    #close the connection
+    conn2.close()
+
+except sqlite3.Error as error:
+    logging.critical("Error while connecting to sqlite")         
+
+try:
+    conn2 = sqlite3.connect(DB_FILE)
+
+
+    c = conn2.cursor()
+
+    #get the count of tables with the name
+    c.execute(""" SELECT count(*) FROM masini """)
+
+    #if the count is 1, then table exists
+    if c.fetchone()[0]==1 : 
+        logging.info("Program functional")
+        menu1 = Menu()   
+    else:
+        logging.critical("Tabelul rezervari nu exista dar a fost creat.")
+        make_table.create_rezervari_table()
+        menu1 = Menu()
+        
+        
+
+    #commit the changes to db
+    conn2.commit()
+    #close the connection
+    conn2.close()
+
+except sqlite3.Error as error:
+    logging.critical("Error while connecting to sqlite")     
+
+try:
+    conn2 = sqlite3.connect(DB_FILE)
+
+
+    c = conn2.cursor()
+
+    #get the count of tables with the name
+    c.execute(""" SELECT count(*) FROM clienti """)
+
+    #if the count is 1, then table exists
+    if c.fetchone()[0]==1 : 
+        logging.info("Program functional")
+        menu1 = Menu()   
+    else:
+        logging.critical("Tabelul rezervari nu exista dar a fost creat.")
+        make_table.create_rezervari_table()
+        menu1 = Menu()
+        
+        
+
+    #commit the changes to db
+    conn2.commit()
+    #close the connection
+    conn2.close()
+
+except sqlite3.Error as error:
+    logging.critical("Error while connecting to sqlite")     
+
+# make_table.create_client_table()
+
+# make_table.create_car_table()
+
+# make_table.create_rezervari_table()
+
+
+logging.info("Hello! Script is starting...")
+while True:
+    car_menu_choose = menu1.get_main_menu_choice()
+    car_menu_choose()
+
+# eroare cand nu pot creea baza de date
+# cu join la vezi rezervari..
+
+# make_table.expirare_rezervare()
+#make_table.show_rezervari_masina()
 
 #make_table.print_rezervari()
 
