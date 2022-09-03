@@ -308,8 +308,11 @@ class Rezervari:
         self.__period = reservations_data["Period"]
         self.__client_id = reservations_data["Customer_id"]
         self.__car_id = reservations_data["Car_id"]
-        
-make_table = DataBase(DB_FILE)
+
+try:        
+    make_table = DataBase(DB_FILE)
+except TypeError as err:
+    logging.critical("The connection to the Database is missing.")
 
 menu1 = Menu()
 
