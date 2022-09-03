@@ -305,7 +305,7 @@ class Rezervari:
     def __init__(self, reservations_data):
         self.__data_start = reservations_data["Data_start"]
         self.__period = reservations_data["Period"]
-        self.__client_id = reservations_data["Customer_id"]
+        self.__customer_id = reservations_data["Customer_id"]
         self.__car_id = reservations_data["Car_id"]
 
 try:        
